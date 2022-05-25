@@ -201,7 +201,7 @@ metadata:
     nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
 spec:
   tls:
-  # указываем секрет с парой ключ/сертификат с предыдуго шага
+  # указываем секрет с парой ключ/сертификат из предыдуго шага
   - secretName: dev-example-com-tls
     hosts:
     - dev.example.com
