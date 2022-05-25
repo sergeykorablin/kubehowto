@@ -141,16 +141,24 @@ spec:
           image: k8s.gcr.io/echoserver:1.10
 ```
 
-Создадим деплоймент:
+Применим деплоймент:
 ```console
 $ kubеctl apply -f hello-deployment.yaml
 ```
 
 ## Сервисы и доступ к приложению
+ClusterIP
+
+NodePort
+
+LoadBalancer
+
+...
 
 ## Балансировщик для входящих соединений
 
 ### MetalLB
+...
 
 https://metallb.universe.tf/installation/
 ```console
@@ -159,6 +167,7 @@ $ kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.12.1/man
 ```
 
 ### ingress-nginx
+...
 
 ## Ручная настройка SSL 
 Если у вас есть готовый сертификат - вы можете использовать его для терминации ssl.
