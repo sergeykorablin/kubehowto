@@ -100,7 +100,7 @@ $ kubectl apply -f https://raw.githubusercontent.com/flannel-io/flannel/master/D
 
 
 ## Подключение воркеров
-После выполнения *kubeadm init* мы должны увидеть в выводе команду, которую необходимо использовать для присоединения узлов к кластеру. 
+После выполнения ```kubeadm init``` мы должны увидеть в выводе команду, которую необходимо использовать для присоединения узлов к кластеру. 
 
 На всех воркерах выполняем команду:
 ```console
@@ -141,7 +141,7 @@ spec:
           image: k8s.gcr.io/echoserver:1.10
 ```
 
-Применим его:
+Создадим деплоймент:
 ```console
 $ kubеctl apply -f hello-deployment.yaml
 ```
@@ -161,7 +161,7 @@ $ kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.12.1/man
 ### ingress-nginx
 
 ## Ручная настройка SSL 
-Если у вас есть готовый сертификат который вы можете использовать его для терминации ssl.
+Если у вас есть готовый сертификат - вы можете использовать его для терминации ssl.
 Создаем каталог ```certs```, копируем в него сертификат tls.crt и ключ tls.key и создаем tls секрет:
 ```console
 kubectl create secret tls dev-example-com-tls -n dev --key=certs/tls.key" --cert=certs/tls.crt"
