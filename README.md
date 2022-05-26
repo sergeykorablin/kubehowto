@@ -409,3 +409,9 @@ $ sudo mkdir /var/nfs
 ```console
 $ sudo apt install nfs-common
 ```
+
+...
+
+## Пользователи и автризация RBAC
+
+...
