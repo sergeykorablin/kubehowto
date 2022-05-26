@@ -160,6 +160,15 @@ LoadBalancer
 
 ...
 
+## Мониторинг с помощью Prometheus и Grafana
+
+[Prometheus](https://prometheus.io/) это open-source фреймворк для мониторинга. It provides out-of-the-box monitoring capabilities for the Kubernetes container orchestration platform. 
+...
+
+```console
+$ kubectl create namespace monitoring
+```
+
 ## Балансировщик для входящих соединений
 
 ### MetalLB
@@ -236,6 +245,7 @@ spec:
 >На github есть [тикет](https://github.com/kubernetes/ingress-nginx/issues/7349) на эту тему, разбор ни чем не закончился, топикстартер пропал.
 
 ## Настройка cert-manager для автоматического получение сертификатов
+
 Теперь настроим автоматический выпуск сертификата.
 Для выпуска сертификатов будем использовать cert-manager, по ссылкам можете найти [официальный сайт](https://cert-manager.io/) проекта и [документацию](https://cert-manager.io/docs/).
 
