@@ -48,6 +48,11 @@ $ sudo swapoff -a
 
 > Изначально я пытался собрать кластер на базе Ubuntu 22.04, но служебные сервисы (поды) рандомно падали и перезапускались, почему это происходит выяснить не получилось.
 
+Сбросим настройки containerd
+```console
+$ containerd config default | sudo tee /etc/containerd/config.toml
+$ sudo systemctl restart containerd
+```
 ...
 
 ## Установка kubelet, kubeadm, kubectl
