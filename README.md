@@ -46,6 +46,7 @@ $ sudo swapoff -a
 
 В качестве гостевой операционной системы буду использовать Ubuntu 20.04. Вы можете использовать другие ОС, поддерживаются rhel-based и debian-based. 
 
+> **Note**
 > Изначально я пытался собрать кластер на базе Ubuntu 22.04, но служебные сервисы (поды) рандомно падали и перезапускались, почему это происходит выяснить не получилось.
 
 Сбросим настройки containerd
@@ -122,6 +123,42 @@ kube-3   Ready      <none>          3d11h   v1.24.0
 ```
 
 ## Запуск первого приложения
+
+Давайте создадим развёртывание (Deployment), используя готовый образ echoserver, представляющий простой HTTP-сервер, и сделаем его доступным на порту 8080:
+```console
+$ kubectl create deployment hello --image=k8s.gcr.io/echoserver:1.10
+deployment.apps/hello created
+```
+Должно появиться два объекта Deployment и Pod:
+```console
+$ kubectl get deployment
+deployment
+NAME              READY   UP-TO-DATE   AVAILABLE   AGE
+hello             1/1     1            1           4s
+
+$ kubectl get pod
+NAME                                READY   STATUS    RESTARTS   AGE
+hello2-584c7785f7-f42hn             1/1     Running   0          10s
+```
+
+Чтобы получить доступ к объекту Deployment hello извне, создаем объект сервиса (Service):
+```console
+$ kubectl expose deployment hello --type=NodePort --port=8080
+```
+Тип сервиса ```NodePort``` указывает, что надо открыть порт на всех воркерах и связать его с Deployment-ом hello.
+```console
+$ kubectl get svc
+NAME            TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)          AGE
+hello           NodePort    10.100.60.224    <none>        8080:30059/TCP   25s
+```
+Откройте в браузере ```http://<ip любого воркера>:30059/``` Если всё настроено правильно - должны увидеть вывод echoserver с некой технической информацией.
+
+Удалим все созданные объекты
+```console
+$ kubectl delete service hello
+
+$ kubectl delete deployment hello
+```
 
 Создадим файл hello-deployment.yaml с таким содержанием:
 ```yaml
