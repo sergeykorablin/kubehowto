@@ -160,15 +160,6 @@ LoadBalancer
 
 ...
 
-## Мониторинг с помощью Prometheus и Grafana
-
-[Prometheus](https://prometheus.io/) это open-source фреймворк для мониторинга. It provides out-of-the-box monitoring capabilities for the Kubernetes container orchestration platform. 
-...
-
-```console
-$ kubectl create namespace monitoring
-```
-
 ## Балансировщик для входящих соединений
 
 ### MetalLB
@@ -425,3 +416,13 @@ $ sudo apt install nfs-common
 ## Пользователи и авторизация RBAC
 
 ...
+
+
+## Мониторинг с помощью Prometheus и Grafana
+
+[Prometheus](https://prometheus.io/) это open-source фреймворк для мониторинга. It provides out-of-the-box monitoring capabilities for the Kubernetes container orchestration platform. 
+...
+
+```console
+$ kubectl create namespace monitoring
+```
