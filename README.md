@@ -24,8 +24,9 @@ Kebernetes довольно сложная система т.к. предназ�
 
 * pod
 * service
-* replica set
 * deployment
+* replica set
+* stateful set 
 * namespace
 * config map
 * secret
