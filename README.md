@@ -125,12 +125,12 @@ kube-3   Ready      <none>          3d11h   v1.24.0
 
 ## Запуск первого приложения
 
-Давайте создадим развёртывание (Deployment), используя готовый образ echoserver, представляющий простой HTTP-сервер, и сделаем его доступным на порту 8080:
+Давайте создадим развёртывание (Deployment), используя готовый образ echoserver, представляющий простой HTTP-сервер, и сделаем его доступным:
 ```console
 $ kubectl create deployment hello --image=k8s.gcr.io/echoserver:1.10
 deployment.apps/hello created
 ```
-Должно появиться два объекта Deployment и Pod:
+Должно появиться два объекта: Deployment и Pod
 ```console
 $ kubectl get deployment
 deployment
@@ -139,7 +139,7 @@ hello             1/1     1            1           4s
 
 $ kubectl get pod
 NAME                                READY   STATUS    RESTARTS   AGE
-hello2-584c7785f7-f42hn             1/1     Running   0          10s
+hello-584c7785f7-f42hn             1/1     Running   0          10s
 ```
 
 Чтобы получить доступ к объекту Deployment hello извне, создаем объект сервиса (Service):
@@ -147,6 +147,7 @@ hello2-584c7785f7-f42hn             1/1     Running   0          10s
 $ kubectl expose deployment hello --type=NodePort --port=8080
 ```
 Тип сервиса ```NodePort``` указывает, что надо открыть порт на всех воркерах и связать его с Deployment-ом hello.
+По дефолту NodePort использует порты из диапазона 30000 - 32767.
 ```console
 $ kubectl get svc
 NAME            TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)          AGE
