@@ -18,24 +18,12 @@ $ teamnl team0 setoption mode <MODE>
 ```
 ## Типы режимов
 
-Basically there are three types of runner in use broadly in 5 that mention in bold.
-* activebackup
-* roundrobin
-* loadbalance
+Есть пять режимов работы, в соновном используются первыке три
+* **activebackup**
+* **roundrobin**
+* **loadbalance**
 * broadcast
 * lacp
-
-              broadcast — Simple runner which directs the team device to transmit packets via all ports.
-
-              roundrobin — Simple runner which directs the team device to transmits packets in a round-robin fashion.
-
-              activebackup — Watches for link changes and selects active port to be used for data transfers.
-
-              loadbalance  —  To  do  passive load balancing, runner only sets up BPF hash function which will determine port for packet transmit. 
-              To do active load balancing, runner moves hashes among available ports trying to reach perfect balance.
-
-              lacp — Implements 802.3ad LACP protocol. Can use same Tx port selection possibilities as loadbalance runner.
-
 
 ### activebackup
 Один порт находится в активном состоянии, остальные в запасе. При пропадании линка на активном порту активный порт меняется на ддругой доступный.
@@ -51,7 +39,7 @@ In industries point of view we use active backup and round robin. Company use lo
 ### broadcast
 Пакеты отправляются со всех портов
 
-### Lacp
+### lacp
 Реализует 802.3ad Link Aggregation Control Protocol. Can use the same transmit port selection possibilities as the load-balancer runner. 
 
 ```console
