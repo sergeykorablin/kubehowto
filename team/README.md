@@ -66,7 +66,24 @@ In industries point of view we use active backup and round robin. Company use lo
 $ sudo teamd -U -D -o -t team0 -f /etc/teamd.d/team0.conf
 ```
 
+### Настройка systemd
+/etc/systemd/system/teamd@.service
+```ini
+[Unit]
+Description=Team Daemon for device %I
+Before=network-pre.target
+Wants=network-pre.target
 
+[Service]
+BusName=org.libteam.teamd.%i
+ExecStart=/usr/bin/teamd -U -D -o -t %i -f /run/teamd/%i.conf
+Restart=on-failure
+RestartPreventExitStatus=1
+```
+
+```console
+systemctl enable teamd@team0
+```
 
 ## В ручном режиме
 
