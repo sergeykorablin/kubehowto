@@ -26,15 +26,13 @@ $ teamnl team0 setoption mode <MODE>
 * lacp
 
 ### activebackup
-Один порт находится в активном состоянии, остальные в запасе. При пропадании линка на активном порту активный порт меняется на ддругой доступный.
+Один порт находится в активном состоянии, остальные в запасе. При пропадании линка на активном порту активный порт меняется на другой доступный.
 
 ### roundrobin
-В случае с Round robin все интерфейсы нгаходятся в активном состоянии, запросы отправляються поочередно через все активные порты. Если линк на порту пропадает - запросы начинают идти через оставшиеся.
+В случае с Round robin все интерфейсы находятся в активном состоянии, запросы отправляються поочередно через все активные порты. Если линк на порту пропадает - запросы начинают идти через оставшиеся.
 
 ### loadbalance
 Все порты активны одновременно. Система пытается загружать их равномерно.
-
-In industries point of view we use active backup and round robin. Company use load-balancer on application level.
 
 ### broadcast
 Пакеты отправляются со всех портов
@@ -43,17 +41,14 @@ In industries point of view we use active backup and round robin. Company use lo
 Реализует 802.3ad Link Aggregation Control Protocol. Can use the same transmit port selection possibilities as the load-balancer runner. 
 
 ```console
-$ ip link add team0 type team
-$ teamnl team0 getoption mode
-*NOMODE*
 $ teamnl team0 setoption mode activebackup
 $ teamnl team0 getoption mode
 activebackup
-$ ip link set dev eth1 master team0
-$ ip link set dev eth2 master team0
+$ ip link set dev eth0 master team0
+$ ip link set dev eth0 master team0
 $ teamnl team0 ports
-6: eth2: up 100 fullduplex
-5: eth1: up 100 fullduplex
+6: eth1: up 100 fullduplex
+5: eth0: up 100 fullduplex
 $ ip addr add 192.168.252.2/24 dev team0
 $ ip link set team0 up
 $ teamnl team0 getoption activeport
