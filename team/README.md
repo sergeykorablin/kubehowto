@@ -85,7 +85,7 @@ RestartPreventExitStatus=1
 systemctl enable teamd@team0
 ```
 
-## В ручном режиме
+### В ручном режиме
 
 
 ```console
