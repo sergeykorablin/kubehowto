@@ -220,14 +220,14 @@ $ kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.12.1/man
 kubectl create secret tls dev-example-com-tls -n dev --key=certs/tls.key" --cert=certs/tls.crt"
 ```
 
-ВЫведем список всех секретов в namespace dev
+Выведем список всех секретов в namespace dev
 ```console
 kubectl get secret -n dev
 NAME              TYPE                DATA   AGE
 dev-example-com-tls   kubernetes.io/tls   2      5m
 ```
 
-Можно посмотреть что содержит секрет выполниво команду:
+Можно посмотреть что содержит секрет выполнив команду:
 ```console
 $ kubectl describe secret dev-example-com-tls -n dev
 Name:         dev-example-com-tls
