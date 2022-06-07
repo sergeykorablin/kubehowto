@@ -427,12 +427,18 @@ spec:
 ```
 
 ## Хранилища данных
-Persistent Volume
-
-Persistent Volume Claim
 
 Изначально предполагалось, что в контейнерах должны работать stateless приложения, которые можно запускать и останавливать без сохранения данных. Позже оказалось, что в виде контейнеров удобно запускать и другие приложения, например базы данных, которые должны где-то хранить свои данные, поэтому появились тома (volumes).
 
+Работа с дисковыми томами в Kubernetes проходит по следующей схеме:
+
+ Вы описываете типы файловых хранилищ с помощью Storage Classes и Persistent Volumes. Они могут быть разных типов: локальные диски, внешние кластерные системы, дисковые полоки.
+
+Затем вы создаете Persistent Volume Claim, в котором описываете потребности пода в доступе к хранилищу - объем, тип и т.д. На основе этого запроса используются либо готовые PV, либо создаются под конкретный запрос автоматически с помощью PV Provisioners.
+
+В описании пода добавляете информацию о Persistent Volume Claim, который он будет использовать в своей работе.
+
+### Настроим nfs хранилище
 В этом примере настроим на мастер узле сервер nfs и добавим его в кластер, чтобы запущенные поды могли хранить свои данные в постоянном хранилище
 
 На мастер узле
@@ -451,8 +457,74 @@ $ sudo mkdir /var/nfs
 ```console
 $ sudo apt install nfs-common
 ```
+...
+```yaml
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: nfs-data1
+spec:
+  capacity:
+    storage: 2Gi
+  accessModes:
+    - ReadOnlyMany
+  persistentVolumeReclaimPolicy: Recycle
+  nfs:
+    server: 192.168.1.101
+    path: /var/nfs
+```
 
 ...
+```yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: nginx-claim
+spec:
+  accessModes:
+    - ReadOnlyMany
+  volumeMode: Filesystem
+  resources:
+    requests:
+      storage: 1Gi
+```
+
+Обновим конфигурацию приложения
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+spec:
+  selector:
+    matchLabels:
+      app: nginx
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.16.1
+        ports:
+        - containerPort: 80
+          name: http-port
+        volumeMounts:
+          - name: www-data
+            mountPath: /usr/share/nginx/html
+      volumes:
+        - name: www-data
+          persistentVolumeClaim:
+            claimName: nginx-claim
+```
+
+На мастер узле создадим простую страницу
+```console
+$ echo "Hello world!" | sudo tee /var/nfs/index.html
+```
+Теперь если в браузере открыть сервис мы должны увидеть тестовую страницу.
 
 ## Пользователи и авторизация RBAC
 
